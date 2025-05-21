@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
-from .models import Pacientes, Tarefas, Consultas
+from .models import Pacientes, Tarefas, Consultas, Visualizacoes
 from django.contrib import messages
 from django.contrib.messages import constants
 
 # Create your views here.
+
+def home(request):
+    return render(request, 'home.html')
 
 def pacientes(request):
     if request.method == "GET":
@@ -18,6 +21,22 @@ def pacientes(request):
         telefone = request.POST.get('telefone')
         queixa = request.POST.get('queixa')
         foto = request.FILES.get('foto')
+        
+        if len(nome.strip()) == 0 or len(email.strip()) == 0 or len(telefone.strip()) == 0 or not foto:
+            messages.add_message(request, constants.ERROR, 'Todos os campos precisam ser preenchidos.')
+            return redirect('pacientes')
+
+        # Verificar se nome, email ou telefone já estão cadastrados
+        paciente_existente = Pacientes.objects.filter(
+            nome=nome
+        ).union(
+            Pacientes.objects.filter(email=email),
+            Pacientes.objects.filter(telefone=telefone)
+        ).first()
+
+        if paciente_existente:
+            messages.add_message(request, constants.ERROR, 'Nome, e-mail ou telefone já cadastrados.')
+            return redirect('pacientes')
         
         paciente = Pacientes(
             nome=nome,
@@ -89,4 +108,15 @@ def consulta_publica(request,id):
     consulta = Consultas.objects.get(id=id)
     if not consulta.paciente.pagamento_em_dia:
         raise Http404()
+    
+    Visualizacoes.objects.create(
+        consulta=consulta,
+        ip=request.META.get('REMOTE_ADDR', '0.0.0.0')
+    )
+    
     return render(request, 'consulta_publica.html', {'consulta' : consulta})
+
+def excluir_paciente(request,id):
+    paciente = Pacientes.objects.get(id=id)
+    paciente.delete()
+    return redirect(f'/pacientes/')

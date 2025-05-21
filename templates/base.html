@@ -6,9 +6,9 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     {% block 'head' %}{% endblock 'head' %}
 </head>
-<body>
-    <header class="bg-purple-100">
-        <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+<body class="pt-16">
+    <header class="fixed top-0 inset-x-0 z-50 bg-purple-100 shadow">
+        <nav class="flex items-center justify-between p-4 lg:px-8" aria-label="Global">
           <div class="flex lg:flex-1">
             <a href="#" class="-m-1.5 p-1.5">
               <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
@@ -34,4 +34,7 @@
 
     {% block 'body' %}{% endblock 'body' %}
 </body>
+<footer>
+    {% block 'footer' %}{% endblock 'footer' %}
+</footer>
 </html>

@@ -52,3 +52,12 @@ class Consultas(models.Model):
     @property
     def link_publico(self):
         return f"http://127.0.0.1:8000{reverse('consulta_publica', kwargs={'id' : self.id})}"
+    
+    def views(self):
+        return Visualizacoes.objects.filter(consulta=self).count()
+    
+class Visualizacoes(models.Model):
+    consulta = models.ForeignKey(Consultas, on_delete=models.CASCADE)
+    ip = models.GenericIPAddressField()
+    
+    

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block 'body' %}
+<div class="bg-purple-50 min-h-screen flex items-center justify-center px-4 py-10">
+  <div class="max-w-3xl w-full space-y-10 text-center">
+
+    <!-- TÍTULO PRINCIPAL -->
+    <h2 class="uppercase text-4xl sm:text-5xl font-bold tracking-wide text-purple-900">
+      Bem-vindo ao site de registros de pacientes e consultas, voltado para psicólogos!
+    </h2>
+
+    <p class="text-lg sm:text-xl text-purple-800">
+      Para cadastrar um novo paciente ou ver os pacientes existentes, clique em uma das opções a seguir:
+    </p>
+
+    <!-- CADASTRAR NOVO PACIENTE -->
+    <div class="space-y-4">
+      <h2 class="text-2xl sm:text-3xl font-semibold text-purple-900">
+        Cadastrar novo paciente
+      </h2>
+
+      <form method="get" action="{% url 'pacientes' %}">
+        <button type="submit" class="inline-flex justify-center rounded-md bg-purple-900 px-5 py-3 text-sm font-semibold text-purple-100 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 w-full">
+          NOVO CADASTRO
+        </button>
+      </form>
+    </div>
+
+    <!-- LISTA DE PACIENTES -->
+    <div class="space-y-4">
+      <h2 class="text-2xl sm:text-3xl font-semibold text-purple-900">
+        Lista de pacientes
+      </h2>
+
+      <form method="get" action="{% url 'pacientes' %}">
+        <button type="submit" class="inline-flex justify-center rounded-md bg-purple-900 px-5 py-3 text-sm font-semibold text-purple-100 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 w-full">
+          PACIENTES CADASTRADOS
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock 'body' %}
+
+{% block 'footer' %}
+<footer class="bg-purple-900 text-white text-center py-4">
+  © 2025 SeuSite.com - Todos os direitos reservados.
+</footer>
+{% endblock 'footer' %}
