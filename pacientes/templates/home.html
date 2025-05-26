@@ -1,40 +1,31 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block 'body' %}
-<div class="bg-purple-50 min-h-screen flex items-center justify-center px-4 py-10">
-  <div class="max-w-3xl w-full space-y-10 text-center">
 
-    <!-- TÍTULO PRINCIPAL -->
-    <h2 class="uppercase text-4xl sm:text-5xl font-bold tracking-wide text-purple-900">
-      Bem-vindo ao site de registros de pacientes e consultas, voltado para psicólogos!
-    </h2>
+<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static "images/Background_app_psicologia.jpg" %}'); background-color: rgba(255, 255, 255, 0.5); background-size: 110% 110%; background-blend-mode: overlay;">
+  <div class="max-w-3xl w-full space-y-20 text-center">
 
-    <p class="text-lg sm:text-xl text-purple-800">
-      Para cadastrar um novo paciente ou ver os pacientes existentes, clique em uma das opções a seguir:
-    </p>
+    <div class="bg-transparent rounded-xl border-2 border-purple-700 shadow-lg shadow-purple-300 p-8">
+      <!-- TÍTULO PRINCIPAL -->
+      <h2 class="uppercase text-4xl sm:text-5xl font-bold tracking-wide text-purple-900 leading-[3.5rem]">
+        Bem-vindo ao site de registros de pacientes e consultas, voltado para psicólogos!
+      </h2>
+
+      <p class="mt-5 text-lg sm:text-xl text-purple-800">
+        Para acessar a área de cadastro e consulta de pacientes, clique no botão abaixo:
+      </p>
+    
+    </div>
 
     <!-- CADASTRAR NOVO PACIENTE -->
     <div class="space-y-4">
-      <h2 class="text-2xl sm:text-3xl font-semibold text-purple-900">
-        Cadastrar novo paciente
-      </h2>
-
+ 
       <form method="get" action="{% url 'pacientes' %}">
-        <button type="submit" class="inline-flex justify-center rounded-md bg-purple-900 px-5 py-3 text-sm font-semibold text-purple-100 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 w-full">
-          NOVO CADASTRO
-        </button>
-      </form>
-    </div>
-
-    <!-- LISTA DE PACIENTES -->
-    <div class="space-y-4">
-      <h2 class="text-2xl sm:text-3xl font-semibold text-purple-900">
-        Lista de pacientes
-      </h2>
-
-      <form method="get" action="{% url 'pacientes' %}">
-        <button type="submit" class="inline-flex justify-center rounded-md bg-purple-900 px-5 py-3 text-sm font-semibold text-purple-100 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 w-full">
-          PACIENTES CADASTRADOS
+        
+        <button type="submit" class="mt-15 inline-flex justify-center rounded-md cursor-pointer bg-purple-900 px-5 py-4 text-sm font-semibold text-purple-100 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600">
+          CADASTRO E CONSULTA DE PACIENTES
         </button>
       </form>
     </div>
@@ -44,7 +35,7 @@
 {% endblock 'body' %}
 
 {% block 'footer' %}
-<footer class="bg-purple-900 text-white text-center py-4">
-  © 2025 SeuSite.com - Todos os direitos reservados.
+<footer class="bg-purple-900 text-purple-50 text-center py-4">
+  © 2025 App Psicologia - Todos os direitos reservados.
 </footer>
 {% endblock 'footer' %}

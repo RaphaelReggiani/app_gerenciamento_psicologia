@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block 'body' %}
 
-    <div class="bg-purple-50 min-h-screen">
+    <div class="min-h-screen flex items-center justify-center px-4 py-10 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static "images/Background_app_psicologia.jpg" %}'); background-color: rgba(255, 255, 255, 0.5); background-size: 110% 110%; background-blend-mode: overlay;">
     
     <div class="py-50 sm:py-50">
         <div class="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
@@ -13,11 +15,11 @@
             {% if messages %}
                 {% for message in messages %}
 
-                    <div class="rounded-md {{message.tags}}">
+                    <div class="mt-5 rounded-md {{message.tags}}">
 
                         <div class="flex">
                             
-                            <div class="ml-3 py-4">
+                            <div class="ml-3 py-2">
 
                                 {{message}}
 
@@ -79,7 +81,7 @@
             {% for paciente in pacientes %}
                 <li>
                 <div class="px-15 flex items-center gap-x-6">
-                    <img class="size-16 rounded-full" src="{{paciente.foto.url}}" alt="">
+                    <img class="size-20 rounded-full border-3 border-purple-500 shadow-lg" src="{{paciente.foto.url}}" alt="">
                     <div>
                     <a href="{% url 'paciente_view' paciente.id %}" class="text-base/7 font-semibold tracking-tight text-purple-900">{{paciente.nome}}</a>
                     <p class="text-sm/6 font-semibold text-purple-500">{{paciente.queixa}}</p>
@@ -97,8 +99,8 @@
 
 {% block 'footer' %}
 
-<footer class="bg-purple-900 text-white text-center py-4">
-  © 2025 SeuSite.com - Todos os direitos reservados.
+<footer class="bg-purple-900 text-purple-50 text-center py-4">
+  © 2025 App Psicologia - Todos os direitos reservados.
 </footer>
 
 {% endblock 'footer' %}

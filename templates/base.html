@@ -7,7 +7,7 @@
     {% block 'head' %}{% endblock 'head' %}
 </head>
 <body class="pt-16">
-    <header class="fixed top-0 inset-x-0 z-50 bg-purple-100 shadow">
+    <header class="fixed top-0 inset-x-0 z-50 bg-gradient-to-r from-purple-700 via-purple-850 to-purple-950 shadow">
         <nav class="flex items-center justify-between p-4 lg:px-8" aria-label="Global">
           <div class="flex lg:flex-1">
             <a href="#" class="-m-1.5 p-1.5">
@@ -22,8 +22,15 @@
               </svg>
             </button>
           </div>
+
+          <div class="ml-5 absolute left-4 flex items-center">
+            <div class="rounded-full border-2 border-purple-100 text-purple-50 w-12 h-12 flex items-center justify-center font-bold text-sm">
+              <a href="{% url 'home' %}">PSIC</a>
+            </div>
+          </div>
+
           <div class="hidden lg:flex lg:gap-x-12">
-            <a href="{% url 'pacientes' %}" class="text-xl font-medium text-purple-800 hover:text-purple-600 tracking-wide transition-colors duration-300">PACIENTES</a>
+            <a class="text-xl font-medium text-purple-100 hover:text-purple-50 tracking-wide transition-colors duration-300">APP PSICOLOGIA</a>
           </div>
           <div class="hidden lg:flex lg:flex-1 lg:justify-end">
 
