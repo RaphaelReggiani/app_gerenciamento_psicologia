@@ -1,53 +1,42 @@
 from django.db import models
 from django.urls import reverse
-
-# Create your models here.
+from .choices import queixas, frequencia, tarefas
+from .validators import name_validator, email_validator, phone_validator
+from django.core.validators import MinLengthValidator, RegexValidator
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+import re
+from collections import Counter
 
 class Pacientes(models.Model):
     
-    queixa_choices = (
-        ('TDAH', 'TDAH'),
-        ('D', 'Depressão'),
-        ('A', 'Ansiedade'),
-        ('TAG', 'Transtorno de Ansiedade Generalizada'),
-        ('T', 'TOC')
-    )
+    queixa_choices = queixas
     
-    nome = models.CharField(max_length=255)
-    email = models.EmailField()
-    telefone = models.CharField(max_length=13, null=True, blank=True)
-    foto = models.ImageField(upload_to='fotos')
-    pagamento_em_dia = models.BooleanField(default=True)
-    queixa = models.CharField(max_length=5, choices=queixa_choices)
+    paciente_nome = models.CharField(max_length=255, unique=True, validators=[name_validator], help_text="Insira o nome completo.", error_messages={'unique': "Já existe um paciente cadastrado com esse nome."})
+    paciente_email = models.EmailField(unique=True, validators=[email_validator], help_text="Insira o e-mail: exemplo@exemplo.com", error_messages={'unique': "E-mail já cadastrado."})
+    paciente_telefone = models.CharField(unique=True, max_length=15, validators=[phone_validator], null=True, blank=True, help_text="(0XX)XXXXXXXXX", error_messages={'unique': "Número de telefone já castrado."})
+    paciente_foto = models.ImageField(upload_to='fotos')
+    paciente_pagamento_em_dia = models.BooleanField(default=True)
+    paciente_queixa = models.CharField(max_length=5, choices=queixa_choices, default='Queixa', help_text="queixa")
     
     def __str__(self):
-        return self.nome
-
-class Tarefas(models.Model):
-    frequencia_choices = (
-        ('D', 'Diário'),
-        ('1S', '1 vez por semana'),
-        ('2S', '2 vezes por semana'),
-        ('3S', '3 vezes por semana'),
-        ('N', 'Ao necessitar')
-    )
-    tarefa = models.CharField(max_length=255)
-    instrucoes = models.TextField()
-    frequencia = models.CharField(max_length=2, choices=frequencia_choices, default='D')
-
-    def __str__(self):
-        return self.tarefa
+        return self.paciente_nome
     
 class Consultas(models.Model):
-    humor = models.PositiveIntegerField()
-    registro_geral = models.TextField()
-    video = models.FileField(upload_to="video")
-    tarefas = models.ManyToManyField(Tarefas)
+
+    tarefa_choices = tarefas
+    frequencia_choices = frequencia
+
+    paciente_humor = models.PositiveIntegerField()
+    paciente_registro_geral = models.TextField(null=True, blank=True)
+    paciente_tarefa = models.CharField(max_length=55, choices=tarefa_choices, default='Tarefa', help_text="tarefa")
+    paciente_frequencia = models.CharField(max_length=55, choices=frequencia_choices, default='Frequência', help_text="frequência")
+    paciente_video = models.FileField(upload_to="video", null=True, blank=True)
+    paciente_data = models.DateTimeField(auto_now_add=True)
     paciente = models.ForeignKey(Pacientes, on_delete=models.CASCADE)
-    data = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.paciente.nome
+        return self.paciente.paciente_nome
     
     @property
     def link_publico(self):

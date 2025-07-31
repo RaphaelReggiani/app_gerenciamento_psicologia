@@ -6,4 +6,4 @@
    - Histórico de consultas;
    - histórico de visualizações;
    - Banco de dados das consultas realizadas;
-     Ggráficos para representação das informações dos pacientes.
+   - gráficos para representação das informações dos pacientes.
