@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block 'body' %}
+<div class="min-h-screen flex items-center justify-center px-4 py-10 bg-center bg-no-repeat bg-cover" style="background-image: url('{% static "images/Background_app_psicologia.jpg" %}'); background-color: rgba(255, 255, 255, 0.5); background-size: 110% 110%; background-blend-mode: overlay;">
+    <div class="w-full flex flex-col items-center">
+        <h2 class="ml-5 mb-10 text-pretty text-3xl flex items-left justify-left font-semibold tracking-tight text-purple-900 sm:text-4xl">
+            MEUS PACIENTES
+        </h2>
+
+        <form method="GET" action="{% url 'user_psicologo_pacientes' request.session.user_id %}" class="w-3/4 flex items-center mb-8 relative">
+            <button type="button" id="filter-toggle" aria-label="Toggle filters" class="mt-12 mr-3 cursor-pointer text-purple-700 hover:text-purple-500 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L15 13.414V19a1 1 0 01-1.447.894l-4-2A1 1 0 019 17v-3.586L3.293 6.707A1 1 0 013 6V4z"/>
+                </svg>
+            </button>
+
+            <input type="text" name="q" value="{{ query }}" placeholder="Procure por nome ou queixa." class="mt-12 flex-grow rounded-md bg-white border border-purple-300 px-4 py-2 text-gray-900 focus:border-purple-400 focus:ring-1 focus:ring-purple-700" />
+
+            <button type="submit" class="mt-12 ml-3 cursor-pointer rounded-md bg-purple-700 px-4 py-2 text-purple-300 hover:bg-purple-700 transition">
+                Search
+            </button>
+        </form>
+
+        <div id="filter-modal" class="hidden absolute flex transform -translate-x-1/2 rounded-lg p-4 w-3/4 max-w-lg z-10">
+            <div class="bg-white rounded-lg p-6 w-3/4 max-w-lg shadow-lg relative">
+                <button id="filter-close" class="cursor-pointer absolute top-3 right-3 text-purple-600 hover:text-purple-900" aria-label="Close filters">
+                    &times;
+                </button>
+                <h3 class="text-xl font-semibold mb-4 text-purple-900">Filtar por:</h3>
+                <form method="GET" action="{% url 'user_psicologo_pacientes' request.session.user_id %}" id="filter-form" class="space-y-4">
+
+                    <div>
+                        <label for="queixa" class="block font-medium text-purple-600 mb-1">QUEIXA:</label>
+                        <select name="queixa" id="queixa" class="cursor-pointer w-full bg-purple-50 rounded border border-purple-400 px-3 py-2 text-purple-900">
+                            {% for queixa in queixas_choices %}
+                            <option value="{{ queixa.0 }}" {% if request.GET.queixa == queixa %}selected{% endif %}>{{ queixa.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button type="submit" class="cursor-pointer rounded bg-purple-700 px-4 py-2 text-purple-50 hover:bg-purple-500">Filtrar</button>
+                        <button type="button" id="filter-cancel" class="cursor-pointer rounded border bg-purple-50 text-gray-900 border-purple-300 px-4 py-2 hover:bg-purple-100">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-6 mb-5 flex flex-col gap-1 w-3/4">
+            <hr class="border-t-2 border-purple-800">
+            <hr class="border-t-2 border-purple-400">
+        </div>
+
+        <ul role="list" class="mt-10 grid gap-x-20 gap-y-12 sm:grid-cols-3 sm:gap-y-16 xl:col-span-3">
+            {% for paciente in pacientes %}
+            <li>
+                <div class="px-12 flex items-center gap-x-6">
+                    <img class="w-36 h-36 object-cover rounded-full border-3 border-purple-900 shadow-lg" src="{{paciente.paciente_foto.url}}" alt="">
+                    <div>
+                        <a href="{% url 'paciente_registro' paciente.id %}"
+                           class="text-base/7 font-semibold tracking-tight text-purple-900">{{paciente.paciente_nome}}</a>
+                        <p class="text-sm/6 font-semibold text-purple-600">{{paciente.paciente_queixa}}</p>
+                    </div>
+                </div>
+            </li>
+            {% empty %}
+            <div class="col-span-full text-center mt-10">
+                <p class="text-xl font-semibold text-purple-800">Nenhum paciente cadastrado.</p>
+            </div>
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>
+
+<script>
+
+    const filterToggle = document.getElementById('filter-toggle');
+    const filterModal = document.getElementById('filter-modal');
+    const filterClose = document.getElementById('filter-close');
+    const filterCancel = document.getElementById('filter-cancel');
+
+    filterToggle.addEventListener('click', () => {
+        filterModal.classList.remove('hidden');
+    });
+
+    filterClose.addEventListener('click', () => {
+        filterModal.classList.add('hidden');
+    });
+
+    filterCancel.addEventListener('click', () => {
+        filterModal.classList.add('hidden');
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === filterModal) {
+            filterModal.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock 'body' %}
+
+{% block 'footer' %}
+<footer class="bg-purple-900 text-purple-50 text-center py-4">
+  © 2025 App Psicologia - Todos os direitos reservados.
+</footer>
+{% endblock 'footer' %}
