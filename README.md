@@ -1,6 +1,6 @@
 # Sistema de Gerenciamento de Pacientes em Psicologia
 
-Aplicação desenvolvida com **Python** e **Django**, utilizando **HTML** e **CSS**, pronta para deploy, voltado para a área de psicologia. O sistema permite o controle e o acompanhamento de pacientes por parte dos psicólogos(as).
+Aplicação desenvolvida com **Python**, **Django** e **Django REST Framework** (Inclui API com autenticação via token para acesso seguro aos dados dos psicólogos, dos pacientes e consultas), utilizando **HTML** e **CSS**, pronta para deploy, voltado para a área de psicologia. O sistema permite o controle e o acompanhamento de pacientes por parte dos psicólogos(as).
 
 ## 🔧 Funcionalidades
 
